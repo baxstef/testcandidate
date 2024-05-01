@@ -12,6 +12,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\DateTimePicker;
+
 
 class CandidateResource extends Resource
 {
@@ -23,27 +28,29 @@ class CandidateResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('lastName')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('firstName')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('lastName')->required(),
+                TextInput::make('firstName')->required(),
+                TextInput::make('email')
+                    ->label('Email address')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('mobile')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('degree_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('resume')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('jobAppliedFor')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('applicationDate')
-                    ->required(),
+                TextInput::make('mobile')->rules('regex:/^\d{10}$/'),
+                Select::make('degree_id')
+                    ->relationship('degree', 'degreeTitle')
+                    ->preload(),
+                FileUpload::make('resume')
+                    ->label('Resume')
+                    ->acceptedFileTypes(['application/pdf']),
+                Select::make('jobAppliedFor')
+                    ->options([
+                        'PHP Developer' => 'PHP Developer',
+                        'JAVA Developer' => 'JAVA Developer',
+                        'PYTHON Developer' => 'PYTHON Developer',
+                        'ERP Support' => 'ERP Support',
+                        'Sales' => 'Sales',
+                        'Technician' => 'Technician',
+                    ])->required(),
             ]);
     }
 
@@ -52,32 +59,32 @@ class CandidateResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('lastName')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('firstName')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('mobile')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('degree_id')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('resume')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('jobAppliedFor'),
-                Tables\Columns\TextColumn::make('applicationDate')
-                    ->dateTime()
+                tables\Columns\TextColumn::make('email'),
+                tables\Columns\TextColumn::make('mobile'),
+                Tables\Columns\TextColumn::make('degree.degreeTitle')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('jobAppliedFor')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('applicationDate'),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('jobAppliedFor')
+                    ->options([
+                        'PHP Developer' => 'PHP Developer',
+                        'JAVA Developer' => 'JAVA Developer',
+                        'PYTHON Developer' => 'PYTHON Developer',
+                        'ERP Support' => 'ERP Support',
+                        'Sales' => 'Sales',
+                        'Technician' => 'Technician',
+                    ])
+                    ->label('Job Applied For'),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
