@@ -37,38 +37,32 @@ Follow these steps to set up and run the project:
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/your-username/your-project-name.git
-Navigate to Project Directory
-bash
-Copy code
-cd your-project-name
-Install Dependencies
-bash
-Copy code
-composer install
-Set Up Environment File
-bash
-Copy code
-cp .env.example .env
+2. **Navigate to Project Directory**
+   ```bash
+   cd your-project-name
+3. **Install Dependencies**
+   ```bash
+   composer install
+4. **Set Up Environment File**
+   ```bash
+   cp .env.example .env
+
 Edit the .env file to add your database and other configurations.
-Generate an Application Key
-bash
-Copy code
-php artisan key:generate
-Run Migrations
-bash
-Copy code
-php artisan migrate
-Seed the Database (if applicable)
-bash
-Copy code
-php artisan db:seed
-Running the Application
+
+5. **Generate an Application Key**
+   ```bash
+   php artisan key:generate
+   
+6. **Run Migrations**
+   ```bash
+   php artisan migrate
+7. **Run Migrations**
+   ```bash
+   php artisan db:seed
+
+### Running the Application
 To start the application, use the following command:
+   ```bash
+   php artisan serve
 
-bash
-Copy code
-php artisan serve
-The application will be accessible at http://localhost:8000.
-
-Contributing
-Contributions are welcome! For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
+    
