@@ -30,39 +30,5 @@ This Resume Management System is a robust application built using the PHP/Larave
 - **ID** (Primary key, auto-incremented)
 - **Degree Title** (Mandatory and unique)
 
-## Getting Started
-
-Follow these steps to set up and run the project:
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/your-username/your-project-name.git
-2. **Navigate to Project Directory**
-   ```bash
-   cd your-project-name
-3. **Install Dependencies**
-   ```bash
-   composer install
-4. **Set Up Environment File**
-   ```bash
-   cp .env.example .env
-
-Edit the .env file to add your database and other configurations.
-
-5. **Generate an Application Key**
-   ```bash
-   php artisan key:generate
-   
-6. **Run Migrations**
-   ```bash
-   php artisan migrate
-7. **Run Migrations**
-   ```bash
-   php artisan db:seed
-
-### Running the Application
-To start the application, use the following command:
-   ```bash
-   php artisan serve
 
     
